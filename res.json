@@ -1,0 +1,73 @@
+{
+    "Patients": [
+        {
+            "_code": "1",
+            "_name": "Кирилл",
+            "_surname": "Вторцев",
+            "_secname": "Дмитриевич",
+            "_yearOfBirth": "21.11.2001",
+            "_discount": 50
+        },
+        {
+            "_code": "2",
+            "_name": "Марк",
+            "_surname": "Захаров",
+            "_secname": "",
+            "_yearOfBirth": "08.05.2001",
+            "_discount": -90
+        }
+    ],
+    "Doctors": [
+        {
+            "_code": "1",
+            "_name": "Ольга",
+            "_surname": "Яновская",
+            "_secname": "Андреевна",
+            "_specialty": "Психолог",
+            "_category": "высшая категория"
+        },
+        {
+            "_code": "2",
+            "_name": "Елена",
+            "_surname": "Дорофеева",
+            "_secname": "Борисовна",
+            "_specialty": "Психолог",
+            "_category": "1 категория"
+        }
+    ],
+    "Procedures": [
+        {
+            "_code": "1",
+            "_name": "тыкнуть носом",
+            "_cost": 50,
+            "_doctorID": "1"
+        },
+        {
+            "_code": "2",
+            "_name": "консультация",
+            "_cost": 350,
+            "_doctorID": "2"
+        }
+    ],
+    "Deals": [
+        {
+            "_code": "1",
+            "_date": "02.11.2020",
+            "_diagnosis": "что-то там 1",
+            "_patientID": "1",
+            "_procedureIDs": [
+                "1"
+            ]
+        },
+        {
+            "_code": "2",
+            "_date": "03.11.2020",
+            "_diagnosis": "что-то там 2",
+            "_patientID": "2",
+            "_procedureIDs": [
+                "1",
+                "2"
+            ]
+        }
+    ]
+}

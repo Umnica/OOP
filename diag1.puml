@@ -1,0 +1,179 @@
+@startuml diag1
+class general {
+    _hospital
+    _props
+    _code
+    data
+
+    setCode()
+    getCode()
+    generateCode()
+    __iter__()
+}
+
+class people <<general>> {
+    _name
+    _surname
+    _secname
+
+    setName(value)
+    setSurname(value)
+    setSecname(value)
+
+    getName()
+    getSurname()
+    getSecname()
+
+    __str__()
+}
+people <|-- general
+
+class doctor <<people>> {
+    _specialty
+    _category
+
+    setSpecialty()
+    setCategory()
+
+    getSpecialty()
+    getCategory()
+
+    __str__()
+}
+doctor <|-- people
+
+class generalList {
+    _list
+
+    clear()
+    findCode(code)
+    getCodes()
+    appendList
+    removeList(code)
+    __str__()
+    listOfStr()
+    listDicts()
+}
+
+class doctorList <<generalList>> {
+    getSpecialty(code)
+    getCategory(code)
+}
+doctorList <|-- generalList
+doctorList o-- doctor 
+
+class patient <<people>> {
+    _yearOfBirth
+    _discount
+
+    setDiscount(value)
+    setYearOfBirth
+    
+    getDiscount()
+    getYearOfBirth()
+
+    __str__()
+}
+patient <|-- people
+
+class patientList <<generalList>> {
+    getYearOfBirth(code)
+}
+patientList <|-- generalList
+patientList o-- patient 
+
+class procedure <<general>> {
+    _name
+    _cost
+    _doctor
+
+    setName
+    setCost
+    setDoctor
+
+    getName() 
+    getCost() 
+    getDoctor() 
+    getDoctorID()
+
+    __str__()
+}
+procedure <|-- general
+procedure *-- doctorList
+
+class procedureList <<generalList>> {
+    getName(code)
+    getDoctor(code)
+    getFullCost()
+}
+procedureList <|-- generalList
+procedureList o-- procedure
+
+class deal <<general>> {
+    _procedures
+    _date
+    _diagnosis
+    _patientID
+    _procedureIDs
+
+    __str__()
+
+    getCostOfTreatment()
+
+    setPatient()
+    setDate()
+    setDiagnosis()
+
+    getPatient()
+    getDate()
+    getDiagnosis()
+
+    clearProcedures()
+    findProcedureCode( code)
+    getProcedureCodes()
+    appendProcedure
+    removeProcedure( code)
+
+    getFullCostProcedures()
+}
+deal <|-- general
+deal *-- procedureList
+deal *-- patientList
+dealList o-- deal 
+
+class dealList <<generalList>> {
+    findByPatientCode( code)
+    findByDiagnosis( diagnosis)
+    findByDate( date)
+}
+dealList <|-- generalList
+
+class hospital {
+    __patients
+    __doctors
+    __procedures
+    __deals
+    getPatients()
+    getDoctors()
+    getProcedures()
+    getDeals()
+
+    getPatient( code)
+    getDoctor( code)
+    getProcedure( code)
+    getDeal( code)
+    
+    appendPatient( patient)
+    appendDoctor( doctor)
+    appendProcedure(procedure)
+    appendDeal( deal)
+
+    save( file): 
+    load( file):
+}
+hospital *-- patientList
+hospital *-- doctorList
+hospital *-- procedureList
+hospital *-- dealList
+
+@enduml
