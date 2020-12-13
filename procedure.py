@@ -13,9 +13,8 @@ class procedure(general):
     def setHospital(self, value): self._hospital = value
     def setName(self, value): self._name = value
     def setCost(self, value): self._cost = value
-    def setDoctor(self, value): 
+    def setDoctor(self, value):
         self._doctorID = value.getCode()
-
 
     def getName(self): return self._name
     def getCost(self): return self._cost

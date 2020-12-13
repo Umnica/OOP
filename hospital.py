@@ -9,6 +9,7 @@ from procedure import procedure
 import json
 import sqlite3
 
+
 class hospital:
     def __init__(self):
        self.__patients = patientList()
@@ -18,6 +19,7 @@ class hospital:
 
     def connectDb(self, file):
         self._connection = sqlite3.connect(file)
+        self._cursor = self._connection.cursor()
 
     def getPatients(self): return self.__patients
     def getDoctors(self): return self.__doctors
@@ -51,8 +53,8 @@ class hospital:
             self.__delete_row('deal', code)
         self.__deals.removeList(code)
 
-    def save(self, file): 
-        res = {   
+    def save(self, file):
+        res = {
             'Patients': self.__patients.listDicts(),
             'Doctors': self.__doctors.listDicts(),
             'Procedures': self.__procedures.listDicts(),
@@ -70,7 +72,7 @@ class hospital:
         if 'Patients' in data:
             self.__patients = patientList(data=data['Patients'])
         if 'Doctors' in data:
-            self.__doctors = doctorList(data=data['Doctors'])                
+            self.__doctors = doctorList(data=data['Doctors'])
         if 'Procedures' in data:
             self.__procedures = procedureList(data=data['Procedures'])
         if 'Deals' in data:
@@ -79,28 +81,26 @@ class hospital:
     def dbLoad(self):
         patientRecs = self.__get_table('patient')
         self.__patients = patientList(data=patientRecs)
-        
+
         doctorRecs = self.__get_table('doctor')
         self.__doctors = doctorList(data=doctorRecs)
-        
+
         procedureRecs = self.__get_table('procedure')
         self.__procedures = procedureList(data=procedureRecs)
-        
+
         dealRecs = self.__get_table('deal')
         self.__deals = dealList(data=dealRecs)
-        
 
     def dbSave(self):
         for p in self.__patients.listDicts():
             self.__post_row('patient', p)
         for d in self.__doctors.listDicts():
-            self.__post_row('doctor', d)      
+            self.__post_row('doctor', d)
         for pr in self.__procedures.listDicts():
             self.__post_row('procedure', pr)
         for de in self.__deals.listDicts():
             self.__post_row('deal', de)
         self._connection.commit()
-
 
     def __get_table(self, tablename):
         sqlite_select_query = 'SELECT * from '+tablename
@@ -111,12 +111,12 @@ class hospital:
         if 'patient' == tablename:
             itemClass = patient
         if 'doctor' == tablename:
-            itemClass = doctor               
+            itemClass = doctor
         if 'procedure' == tablename:
             itemClass = procedure
         if 'deal' == tablename:
             itemClass = deal
-        
+
         return [dict(zip(itemClass._props, d)) for d in records]
 
     def __post_row(self, tablename, itemDict):
@@ -127,11 +127,11 @@ class hospital:
         self._connection.execute('INSERT OR REPLACE INTO '+tablename+' ('+keys+') VALUES ('+question_marks+')', values)
 
     def __delete_row(self, tablename, code):
-        sql_remove_query = 'DELETE FROM '+tablename+' WHERE _code = \''+code+'\''
+        sql_remove_query = 'DELETE FROM '+tablename+' WHERE _code = \''+str(code)+'\''
         self._cursor.execute(sql_remove_query)
 
     @staticmethod
-    def formatIDList (ls):
+    def formatIDList(ls):
         if isinstance(ls, list):
             strFormatting = (lambda s: s if isinstance(s, str) else s)
             return 'ARRAY'+str([strFormatting(i) for i in ls])

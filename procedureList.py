@@ -1,6 +1,7 @@
 from generalList import generalList
 from procedure import procedure
 
+
 class procedureList(generalList):
     def __init__(self, items=None, data=[]):
         super().__init__(procedure, items, data)
