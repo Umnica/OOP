@@ -7,19 +7,21 @@ client <|-- general
 
 class route <<general>> {
 }
-route <|-- people
+route <|-- general
 
 class voucher <<general>> {
 }
-voucher <|-- people
+voucher <|-- general
+voucher *-- client
+voucher *-- routeList
 
 class generalList {
 }  
 
-class clentList <<generalList>> {
+class clientList <<generalList>> {
 }
 clientList <|-- generalList
-clientList o-- clent 
+clientList o-- client 
 
 class routeList <<generalList>> {
 }
@@ -29,26 +31,12 @@ routeList o-- route
 class voucherList <<generalList>> {
 }
 voucherList <|-- generalList
-voucherist o-- voucher
-
-
-class deal <<general>> {
-}
-deal <|-- general
-deal *-- voucherList
-deal *-- clientList
-
-
-class dealList <<generalList>> {
-}
-dealList <|-- generalList
-dealList o-- deal 
+voucherList o-- voucher
 
 class company {
 }
 company *-- voucherList
 company *-- clientList
 company *-- routeList
-company *-- dealList
 
 @enduml

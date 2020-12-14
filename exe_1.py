@@ -22,7 +22,7 @@ doctors.appendList(doc2)
 
 r1 = procedure(0,'тыкунть носом', 500, doc1)
 r2 = procedure(0, 'консультация', 3500, doc2)
-r3 = procedure(0, 'консультация2',100, doc2)
+r3 = procedure(0, 'консультация2', 100, doc2)
 procedures.appendList(r1)
 procedures.appendList(r2)
 procedures.appendList(r3)
@@ -35,7 +35,7 @@ patients.appendList(p2)
 
 
 d1 = deal(1, '02.11.2020', 'что-то там 1', p1, [r1])
-d2 = deal(2, '03.11.2020', 'что-то там 2', p2, [r1,r2])
+d2 = deal(2, '03.11.2020', 'что-то там 2', p2, [r1, r2])
 d3 = deal(3, '11.11.2020', 'что-то там 3', p1, [r3])
 #d1.setPatient(p1)
 #d2.setPatient(p2)

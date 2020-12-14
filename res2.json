@@ -15,14 +15,6 @@
             "_secname": "",
             "_yearOfBirth": "08.05.2001",
             "_discount": -90
-        },
-        {
-            "_code": "2",
-            "_name": "Марк",
-            "_surname": "Захаров",
-            "_secname": "",
-            "_yearOfBirth": "08.05.2001",
-            "_discount": -90
         }
     ],
     "Doctors": [

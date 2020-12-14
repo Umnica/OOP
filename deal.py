@@ -32,7 +32,8 @@ class deal(general):
     def setDate(self, value): self._date = value
     def setDiagnosis(self, value): self._diagnosis = value
 
-    def getPatient(self): return self._hospital.getPatient(self._patientID)
+    def getPatient(self):
+         return self._hospital.getPatient(self._patientID)
     def getDate(self): return self._date
     def getDiagnosis(self): return self._diagnosis
 

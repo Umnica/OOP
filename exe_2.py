@@ -40,7 +40,6 @@ def changeItems():
     r3 = procedure('3', 'консультация', 500, doc3)
     h.appendProcedure(r3)
     p2 = patient('2', 'Марк', 'Захаров', '', '08.05.2001', -90)
-    h.appendPatient(p2)
     d3 = deal('3', '13.12.2020', 'Зубной налет', p2, [r3])
     h.appendDeal(d3)
 
