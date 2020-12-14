@@ -1,0 +1,54 @@
+@startuml diag1
+class general {}
+
+class client <<general>> {
+}
+client <|-- general
+
+class route <<general>> {
+}
+route <|-- people
+
+class voucher <<general>> {
+}
+voucher <|-- people
+
+class generalList {
+}  
+
+class clentList <<generalList>> {
+}
+clientList <|-- generalList
+clientList o-- clent 
+
+class routeList <<generalList>> {
+}
+routeList <|-- generalList
+routeList o-- route
+
+class voucherList <<generalList>> {
+}
+voucherList <|-- generalList
+voucherist o-- voucher
+
+
+class deal <<general>> {
+}
+deal <|-- general
+deal *-- voucherList
+deal *-- clientList
+
+
+class dealList <<generalList>> {
+}
+dealList <|-- generalList
+dealList o-- deal 
+
+class company {
+}
+company *-- voucherList
+company *-- clientList
+company *-- routeList
+company *-- dealList
+
+@enduml
