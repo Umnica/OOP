@@ -44,6 +44,7 @@ def changeItems():
     h.appendDeal(d3)
 
 
-changeItems()
+# changeItems()
 # Сохранение в json
-h.save('res2.json')
+# h.save('res2.json')
+print(h.getProcedures())

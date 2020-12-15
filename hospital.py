@@ -12,10 +12,10 @@ import sqlite3
 
 class hospital:
     def __init__(self):
-       self.__patients = patientList()
-       self.__doctors = doctorList()
-       self.__procedures = procedureList()
-       self.__deals = dealList()
+       self.__patients = patientList(self)
+       self.__doctors = doctorList(self)
+       self.__procedures = procedureList(self)
+       self.__deals = dealList(self)
 
     def connectDb(self, file):
         self._connection = sqlite3.connect(file)
@@ -70,26 +70,26 @@ class hospital:
         fileR.close()
 
         if 'Patients' in data:
-            self.__patients = patientList(data=data['Patients'])
+            self.__patients = patientList(self, data=data['Patients'])
         if 'Doctors' in data:
-            self.__doctors = doctorList(data=data['Doctors'])
+            self.__doctors = doctorList(self, data=data['Doctors'])
         if 'Procedures' in data:
-            self.__procedures = procedureList(data=data['Procedures'])
+            self.__procedures = procedureList(self, data=data['Procedures'])
         if 'Deals' in data:
-            self.__deals = dealList(data=data['Deals'])
+            self.__deals = dealList(self, data=data['Deals'])
 
     def dbLoad(self):
         patientRecs = self.__get_table('patient')
-        self.__patients = patientList(data=patientRecs)
+        self.__patients = patientList(self, data=patientRecs)
 
         doctorRecs = self.__get_table('doctor')
-        self.__doctors = doctorList(data=doctorRecs)
+        self.__doctors = doctorList(self, data=doctorRecs)
 
         procedureRecs = self.__get_table('procedure')
-        self.__procedures = procedureList(data=procedureRecs)
+        self.__procedures = procedureList(self, data=procedureRecs)
 
         dealRecs = self.__get_table('deal')
-        self.__deals = dealList(data=dealRecs)
+        self.__deals = dealList(self, data=dealRecs)
 
     def dbSave(self):
         for p in self.__patients.listDicts():

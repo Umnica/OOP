@@ -23,6 +23,8 @@ class general:
     def setCode(self, value): self._code = value
 
     def getCode(self): return self._code
+    def setHospital(self, value): self._hospital = value
+
 
     # воз. словарь пропса
     def __iter__(self):

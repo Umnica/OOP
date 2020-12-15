@@ -19,7 +19,6 @@ doc2 = doctor(2, 'Елена', 'Дорофеева', 'Борисовна', 'Пс
 doctors.appendList(doc1)
 doctors.appendList(doc2)
 
-
 r1 = procedure(0,'тыкунть носом', 500, doc1)
 r2 = procedure(0, 'консультация', 3500, doc2)
 r3 = procedure(0, 'консультация2', 100, doc2)
@@ -42,3 +41,4 @@ d3 = deal(3, '11.11.2020', 'что-то там 3', p1, [r3])
 deals.appendList(d1)
 deals.appendList(d2)
 deals.appendList(d3)
+print(procedures)

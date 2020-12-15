@@ -1,11 +1,14 @@
 class generalList:
-    def __init__(self, itemClass, items=None, data=[]):
+    def __init__(self, hospital, itemClass, items=None, data=[]):
+        self._hospital = hospital
         if items:
             self._list = items
         elif len(data):
             self._list = [itemClass(data=d) for d in data]
         else:
             self._list = []
+        for i in self._list:
+            i.setHospital(self._hospital)
 
     def clear(self): self._list.clear()
 
@@ -15,7 +18,10 @@ class generalList:
                 return i
 
     def getCodes(self): return [s.getCode() for s in self._list]
-    def appendList(self, value): self._list.append(value)
+    def appendList(self, value):
+        value.setHospital(self._hospital)
+        self._list.append(value)
+
 
     def removeList(self, code):
         for s in self._list:

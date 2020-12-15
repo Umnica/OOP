@@ -3,8 +3,8 @@ from deal import deal
 
 
 class dealList(generalList):
-    def __init__(self, items=None, data=[]):
-        super().__init__(deal, items, data)
+    def __init__(self, hospital, items=None, data=[]):
+        super().__init__(hospital, deal, items, data)
     def findByPatientCode(self, code):
         for l in self._list:
             p = l.getPatient()
