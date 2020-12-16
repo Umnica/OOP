@@ -9,6 +9,7 @@ from procedure import procedure
 import json
 import sqlite3
 
+
 class hospital:
     def __init__(self):
        self.__patients = patientList(self)
@@ -16,10 +17,11 @@ class hospital:
        self.__procedures = procedureList(self)
        self.__deals = dealList(self)
 
-
     def connectDb(self, file):
         self._connection = sqlite3.connect(file)
         self._cursor = self._connection.cursor()
+        # Проверка корректрости БД и исправление её
+        self.__repair_db()
 
     def getPatients(self): return self.__patients
     def getDoctors(self): return self.__doctors
@@ -132,6 +134,66 @@ class hospital:
     def __delete_row(self, tablename, code):
         sql_remove_query = 'DELETE FROM '+tablename+' WHERE _code = \''+str(code)+'\''
         self._cursor.execute(sql_remove_query)
+
+    def __table_exist(self, tablename):
+        # Проверка на налицие таблицы в БД с указанным именем
+        self._cursor.execute("""
+            SELECT name 
+            FROM sqlite_master 
+            WHERE type='table' AND name=?;
+        """, (tablename, ))
+        records = self._cursor.fetchall()
+        return bool(len(records))
+
+    def __repair_db(self):
+        # Вставляет таблицы в БД, если х небыло
+        tablenames = ["deal", "doctor", "patient", "procedure"]
+        tables = [
+            """
+                CREATE TABLE "deal" (
+                    "_code"	TEXT NOT NULL UNIQUE,
+                    "_date"	TEXT,
+                    "_diagnosis"	TEXT,
+                    "_patientID"	TEXT NOT NULL,
+                    "_procedureIDs"	ARRAY [VARCHAR(32)] NOT NULL,
+                    PRIMARY KEY("_code")
+                )
+            """,
+            """
+                CREATE TABLE "doctor" (
+                    "_code"	TEXT NOT NULL UNIQUE,
+                    "_name"	TEXT,
+                    "_surname"	TEXT,
+                    "_secname"	TEXT,
+                    "_specialty"	TEXT,
+                    "_category"	TEXT,
+                    PRIMARY KEY("_code")
+                )
+            """,
+            """
+                CREATE TABLE "patient" (
+                    "_code"	TEXT NOT NULL UNIQUE,
+                    "_name"	TEXT,
+                    "_surname"	TEXT,
+                    "_secname"	TEXT,
+                    "_yearOfBirth"	TEXT,
+                    "_discount"	REAL,
+                    PRIMARY KEY("_code")
+                )
+            """,
+            """
+                CREATE TABLE "procedure" (
+                    "_code"	TEXT NOT NULL UNIQUE,
+                    "_name"	TEXT,
+                    "_cost"	TEXT,
+                    "_doctorID"	TEXT NOT NULL,
+                    PRIMARY KEY("_code")
+                )
+            """
+        ]
+        for name, query in zip(tablenames, tables):
+            if not self.__table_exist(name):
+                self._cursor.execute(query)
 
     @staticmethod
     def formatIDList(ls):
