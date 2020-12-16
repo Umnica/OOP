@@ -21,11 +21,18 @@ def changeItems2():
     h.removeProcedure('3')
     h.removeDeal('3')
 
+def main1():
+    h = hospital()
+    h.connectDb('db.sqlite3')
+    h.dbLoad()
+    #changeItems()
+    changeItems2()
+    h.save('dbSave.json')
+    h.dbSave()
 
-h = hospital()
-h.connectDb('db.sqlite3')
-h.dbLoad()
-#changeItems()
-changeItems2()
-h.save('dbSave.json')
-h.dbSave()
+def main2():
+    h = hospital()
+    h.load('res.json')
+    h.connectDb('db1.sqlite3')
+    h.dbSave()
+main2()

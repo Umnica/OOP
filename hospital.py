@@ -9,13 +9,13 @@ from procedure import procedure
 import json
 import sqlite3
 
-
 class hospital:
     def __init__(self):
        self.__patients = patientList(self)
        self.__doctors = doctorList(self)
        self.__procedures = procedureList(self)
        self.__deals = dealList(self)
+
 
     def connectDb(self, file):
         self._connection = sqlite3.connect(file)
@@ -94,13 +94,16 @@ class hospital:
     def dbSave(self):
         for p in self.__patients.listDicts():
             self.__post_row('patient', p)
+            self._connection.commit()
         for d in self.__doctors.listDicts():
             self.__post_row('doctor', d)
+            self._connection.commit()
         for pr in self.__procedures.listDicts():
             self.__post_row('procedure', pr)
+            self._connection.commit()
         for de in self.__deals.listDicts():
             self.__post_row('deal', de)
-        self._connection.commit()
+            self._connection.commit()
 
     def __get_table(self, tablename):
         sqlite_select_query = 'SELECT * from '+tablename
