@@ -27,14 +27,8 @@ class generalList:
         for s in self._list:
             if s.getCode() == code:
                 self._list.remove(s)
-
     def __str__(self):
-        s = ''
-        for i in self._list:
-            s += str(i) + ',\n'
-        if s:
-            s = s[:-2]
-        return s
+        return ',\n'.join([str(k) for k in self._list])
 
     # для вывода значений на экран
     def listOfStr(self):

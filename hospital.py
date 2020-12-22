@@ -16,6 +16,7 @@ class hospital:
        self.__doctors = doctorList(self)
        self.__procedures = procedureList(self)
        self.__deals = dealList(self)
+       self.__pdlinks = pdlinkList(self)
 
     def connectDb(self, file):
         self._connection = sqlite3.connect(file)
@@ -27,6 +28,7 @@ class hospital:
     def getDoctors(self): return self.__doctors
     def getProcedures(self): return self.__procedures
     def getDeals(self): return self.__deals
+    def getPDlinks(self): return self.__pdlinks
 
     def getPatient(self, code): return self.__patients.findCode(code)
     def getDoctor(self, code): return self.__doctors.findCode(code)
@@ -37,6 +39,13 @@ class hospital:
     def appendDoctor(self, doctor): self.__doctors.appendList(doctor)
     def appendProcedure(self, procedure): self.__procedures.appendList(procedure)
     def appendDeal(self, deal): self.__deals.appendList(deal)
+
+    def getProcedureCodesByDeal(self, dealID): return self.__pdlinks.getProcedureCodesByDeal(dealID)
+    def getDealCodes(self, procedureID): return self.__pdlinks.getDealCodes(procedureID)
+    def appendProcedureID(self, dealID, procedureID): self.__pdlinks.appendProcedureID(dealID, procedureID)
+    def removeDeal(self, dealID): self.__pdlinks.removeDeal(dealID)
+    def removeProcedureByDeal(self, dealID, procedureID):
+        self.__pdlinks.removeProcedureByDeal(dealID, procedureID)
 
     def removePatient(self, code):
         if self._connection:
