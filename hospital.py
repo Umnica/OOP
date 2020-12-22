@@ -43,7 +43,7 @@ class hospital:
     def getProcedureCodesByDeal(self, dealID): return self.__pdlinks.getProcedureCodesByDeal(dealID)
     def getDealCodes(self, procedureID): return self.__pdlinks.getDealCodes(procedureID)
     def appendProcedureID(self, dealID, procedureID): self.__pdlinks.appendProcedureID(dealID, procedureID)
-    def removeDeal(self, dealID): self.__pdlinks.removeDeal(dealID)
+    def removeDealLink(self, dealID): self.__pdlinks.removeDeal(dealID)
     def removeProcedureByDeal(self, dealID, procedureID):
         self.__pdlinks.removeProcedureByDeal(dealID, procedureID)
 
