@@ -29,7 +29,10 @@ def createItems():
     d2 = deal('2', '03.11.2020', 'что-то там 2', p2, [r1, r2])
 
     h.appendDeal(d1)
+    d1.appendProcedure(r1)
     h.appendDeal(d2)
+    d2.appendProcedure(r1)
+    d2.appendProcedure(r2)
     h.save('res.json')
 
 
@@ -40,11 +43,12 @@ def changeItems():
     r3 = procedure('3', 'консультация', 500, doc3)
     h.appendProcedure(r3)
     p2 = patient('2', 'Марк', 'Захаров', '', '08.05.2001', -90)
-    d3 = deal('3', '13.12.2020', 'Зубной налет', p2, [r3])
+    d3 = deal('3', '13.12.2020', 'Зубной налет', p2)
     h.appendDeal(d3)
+    d3.appendProcedure(r3)
 
 
-# changeItems()
+changeItems()
 # Сохранение в json
-# h.save('res2.json')
+h.save('res2.json')
 print(h.getProcedures())

@@ -3,14 +3,13 @@ from procedureList import procedureList
 
 
 class deal(general):
-    _props = ['_code', '_date', '_diagnosis', '_patientID', '_procedureIDs']
+    _props = ['_code', '_date', '_diagnosis', '_patientID']
 
-    def __init__(self, code='', date='', diagnosis='', patient=None, procedures=[], data={}):
+    def __init__(self, code='', date='', diagnosis='', patient=None, data={}):
         self.setDate(date)
         self.setDiagnosis(diagnosis)
         if patient:
             self.setPatient(patient)
-        self._procedureIDs = [p.getCode() for p in procedures]
         super().__init__(code, data)
 
     def __str__(self):
@@ -38,15 +37,17 @@ class deal(general):
     def getDiagnosis(self): return self._diagnosis
 
     def __getProcedures(self):
-        return [self._hospital.getProcedure(code) for code in self._procedureIDs]
-    def clearProcedures(self): self._procedureIDs.clear()
+        return [self._hospital.getProcedure(code) for code in self._hospital.getProcedureCodesByDeal(self._code)]
+    def clearProcedures(self): self._hospital.removeDealLinks(self._code)
     def findProcedureCode(self, code):
-        if code in self._procedureIDs:
+        procedureIDs = self._hospital.getProcedureCodesByDeal(self._code)
+        if code in procedureIDs:
             return self._hospital.getProcedure(code)
 
-    def getProcedureCodes(self): return self._procedureIDs
-    def appendProcedure(self, procedure): self._procedureIDs.append(procedure.getCode())
-    def removeProcedure(self, code): self._procedureIDs.remove(code)
+    def getProcedureCodes(self): return self._hospital.getProcedureCodesByDeal(self._code)
+    def appendProcedure(self, procedure): 
+        self._hospital.appendLink(self._code, procedure.getCode())
+    def removeProcedure(self, code): self._hospital.removeLink(self._code, code)
 
     def getFullCostProcedures(self):
         return sum([p.getCost() for p in self.__getProcedures()])

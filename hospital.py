@@ -1,3 +1,6 @@
+from general import general
+from pdlink import pdlink
+from pdlinkList import pdlinkList
 from patientList import patientList
 from doctorList import doctorList
 from procedureList import procedureList
@@ -40,12 +43,22 @@ class hospital:
     def appendProcedure(self, procedure): self.__procedures.appendList(procedure)
     def appendDeal(self, deal): self.__deals.appendList(deal)
 
-    def getProcedureCodesByDeal(self, dealID): return self.__pdlinks.getProcedureCodesByDeal(dealID)
-    def getDealCodes(self, procedureID): return self.__pdlinks.getDealCodes(procedureID)
-    def appendProcedureID(self, dealID, procedureID): self.__pdlinks.appendProcedureID(dealID, procedureID)
-    def removeDeal(self, dealID): self.__pdlinks.removeDeal(dealID)
-    def removeProcedureByDeal(self, dealID, procedureID):
-        self.__pdlinks.removeProcedureByDeal(dealID, procedureID)
+    def getProcedureCodesByDeal(self, dealID):
+        return self.__pdlinks.getProcedureCodesByDeal(dealID)
+    def getDealCodes(self, procedureID):
+        return self.__pdlinks.getDealCodes(procedureID)
+    def appendLink(self, dealID, procedureID):
+        self.__pdlinks.appendLink(dealID, procedureID)
+    def removeDealLinks(self, dealID):
+        links = self.__pdlinks.removeDeal(dealID)
+        if self._connection:
+            for link in links:
+                self.__delete_row('pdlink', link)
+    def removeLink(self, dealID, procedureID):
+        links = self.__pdlinks.removeProcedureByDeal(dealID, procedureID)
+        if self._connection:
+            for link in links:
+                self.__delete_row('pdlink', link)
 
     def removePatient(self, code):
         if self._connection:
@@ -69,7 +82,8 @@ class hospital:
             'Patients': self.__patients.listDicts(),
             'Doctors': self.__doctors.listDicts(),
             'Procedures': self.__procedures.listDicts(),
-            'Deals': self.__deals.listDicts()
+            'Deals': self.__deals.listDicts(),
+            'PDLinks': self.__pdlinks.listDicts()
         }
         fileW = open(file, 'w', encoding="utf-8")
         json.dump(res, fileW, indent=4, ensure_ascii=False)
@@ -88,6 +102,8 @@ class hospital:
             self.__procedures = procedureList(self, data=data['Procedures'])
         if 'Deals' in data:
             self.__deals = dealList(self, data=data['Deals'])
+        if 'PDLinks' in data:
+            self.__pdlinks = pdlinkList(self, data=data['PDLinks'])
 
     def dbLoad(self):
         patientRecs = self.__get_table('patient')
@@ -102,19 +118,21 @@ class hospital:
         dealRecs = self.__get_table('deal')
         self.__deals = dealList(self, data=dealRecs)
 
+        pdlRecs = self.__get_table('pdlink')
+        self.__pdlinks = pdlinkList(self, data=pdlRecs)
+
     def dbSave(self):
         for p in self.__patients.listDicts():
             self.__post_row('patient', p)
-            self._connection.commit()
         for d in self.__doctors.listDicts():
             self.__post_row('doctor', d)
-            self._connection.commit()
         for pr in self.__procedures.listDicts():
             self.__post_row('procedure', pr)
-            self._connection.commit()
         for de in self.__deals.listDicts():
             self.__post_row('deal', de)
-            self._connection.commit()
+        for pld in self.__pdlinks.listDicts():
+            self.__post_row('pdlink', pld)
+        self._connection.commit()
 
     def __get_table(self, tablename):
         sqlite_select_query = 'SELECT * from '+tablename
@@ -122,6 +140,7 @@ class hospital:
         cursor = self._connection.cursor()
         cursor.execute(sqlite_select_query)
         records = cursor.fetchall()
+        itemClass = general
         if 'patient' == tablename:
             itemClass = patient
         if 'doctor' == tablename:
@@ -130,6 +149,8 @@ class hospital:
             itemClass = procedure
         if 'deal' == tablename:
             itemClass = deal
+        if 'pdlink' == tablename:
+            itemClass = pdlink
 
         return [dict(zip(itemClass._props, d)) for d in records]
 
@@ -156,7 +177,7 @@ class hospital:
 
     def __repair_db(self):
         # Вставляет таблицы в БД, если х небыло
-        tablenames = ["deal", "doctor", "patient", "procedure"]
+        tablenames = ["deal", "doctor", "pdlink", "patient", "procedure"]
         tables = [
             """
                 CREATE TABLE "deal" (
@@ -164,7 +185,6 @@ class hospital:
                     "_date"	TEXT,
                     "_diagnosis"	TEXT,
                     "_patientID"	TEXT NOT NULL,
-                    "_procedureIDs"	ARRAY [VARCHAR(32)] NOT NULL,
                     PRIMARY KEY("_code")
                 )
             """,
@@ -176,6 +196,14 @@ class hospital:
                     "_secname"	TEXT,
                     "_specialty"	TEXT,
                     "_category"	TEXT,
+                    PRIMARY KEY("_code")
+                )
+            """,
+            """
+                CREATE TABLE "pdlink" (
+                    "_code"	TEXT NOT NULL UNIQUE,
+                    "_dealID"	TEXT NOT NULL,
+                    "_procedureID"	TEXT NOT NULL,
                     PRIMARY KEY("_code")
                 )
             """,

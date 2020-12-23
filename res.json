@@ -54,20 +54,30 @@
             "_code": "1",
             "_date": "02.11.2020",
             "_diagnosis": "что-то там 1",
-            "_patientID": "1",
-            "_procedureIDs": [
-                "1"
-            ]
+            "_patientID": "1"
         },
         {
             "_code": "2",
             "_date": "03.11.2020",
             "_diagnosis": "что-то там 2",
-            "_patientID": "2",
-            "_procedureIDs": [
-                "1",
-                "2"
-            ]
+            "_patientID": "2"
+        }
+    ],
+    "PDLinks": [
+        {
+            "_code": "11",
+            "_dealID": "1",
+            "_procedureID": "1"
+        },
+        {
+            "_code": "21",
+            "_dealID": "2",
+            "_procedureID": "1"
+        },
+        {
+            "_code": "22",
+            "_dealID": "2",
+            "_procedureID": "2"
         }
     ]
 }

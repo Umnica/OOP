@@ -5,6 +5,7 @@ from procedure import procedure
 from hospital import hospital
 
 
+h = hospital()
 def changeItems():
     doc3 = doctor('3', 'Наталия', 'Чехонина', 'Павловна', 'стоматолог', '1 категория')
     h.appendDoctor(doc3)
@@ -33,7 +34,6 @@ def main1():
 
 
 def main2():
-    h = hospital()
     h.connectDb('db1.sqlite3')
     h.load('res.json')
     h.dbSave()

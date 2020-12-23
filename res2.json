@@ -33,14 +33,6 @@
             "_secname": "Борисовна",
             "_specialty": "Психолог",
             "_category": "1 категория"
-        },
-        {
-            "_code": "3",
-            "_name": "Наталия",
-            "_surname": "Чехонина",
-            "_secname": "Павловна",
-            "_specialty": "стоматолог",
-            "_category": "1 категория"
         }
     ],
     "Procedures": [
@@ -55,12 +47,6 @@
             "_name": "консультация",
             "_cost": 350,
             "_doctorID": "2"
-        },
-        {
-            "_code": "3",
-            "_name": "консультация",
-            "_cost": 500,
-            "_doctorID": "3"
         }
     ],
     "Deals": [
@@ -68,29 +54,30 @@
             "_code": "1",
             "_date": "02.11.2020",
             "_diagnosis": "что-то там 1",
-            "_patientID": "1",
-            "_procedureIDs": [
-                "1"
-            ]
+            "_patientID": "1"
         },
         {
             "_code": "2",
             "_date": "03.11.2020",
             "_diagnosis": "что-то там 2",
-            "_patientID": "2",
-            "_procedureIDs": [
-                "1",
-                "2"
-            ]
+            "_patientID": "2"
+        }
+    ],
+    "PDLinks": [
+        {
+            "_code": "11",
+            "_dealID": "1",
+            "_procedureID": "1"
         },
         {
-            "_code": "3",
-            "_date": "13.12.2020",
-            "_diagnosis": "Зубной налет",
-            "_patientID": "2",
-            "_procedureIDs": [
-                "3"
-            ]
+            "_code": "21",
+            "_dealID": "2",
+            "_procedureID": "1"
+        },
+        {
+            "_code": "22",
+            "_dealID": "2",
+            "_procedureID": "2"
         }
     ]
 }

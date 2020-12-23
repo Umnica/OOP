@@ -6,19 +6,19 @@ class pdlink(general):
     def __init__(self, deal=None, procedure=None, data={}):
         if isinstance(deal, str):
             self.setDealCode(deal)
-        elif issubclass(deal, general):
+        elif issubclass(deal.__class__, general):
             self.setDeal(deal)
-        else:
+        elif not '_dealID' in data:
             raise TypeError("Неверно указан тип сделки.(Должен быть str/general)", deal)
 
         if isinstance(procedure, str):
             self.setProcedureCode(procedure)
-        elif issubclass(procedure, general):
+        elif issubclass(procedure.__class__, general):
             self.setProcedure(procedure)
-        else:
-            raise TypeError("Неверно указан тип сделки.(Должен быть str/general)", Procedure)
-        code = self._dealID + self._procedureID
-        super().__init__(code, data)
+        elif not '_procedureID' in data:
+            raise TypeError("Неверно указан тип сделки.(Должен быть str/general)", procedure)
+        super().__init__('', data)
+        self._code = self._dealID + self._procedureID
 
 
     def setDeal(self, value):
