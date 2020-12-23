@@ -168,8 +168,8 @@ class hospital:
     def __table_exist(self, tablename):
         # Проверка на налицие таблицы в БД с указанным именем
         self._cursor.execute("""
-            SELECT name 
-            FROM sqlite_master 
+            SELECT name
+            FROM sqlite_master
             WHERE type='table' AND name=?;
         """, (tablename, ))
         records = self._cursor.fetchall()

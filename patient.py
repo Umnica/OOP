@@ -16,11 +16,5 @@ class patient(people):
     def getYearOfBirth(self): return self._yearOfBirth
 
     def __str__(self):
-        s = self.getSurname()
-        if self.getName():
-            s += ' {0}'.format(self.getName())
-        if self.getSecname():
-            s += ' {0}'.format(self.getSecname())
-        if self.getYearOfBirth():
-            s += ' {0}'.format(self.getYearOfBirth())
+        s = '{0} {1} {2} {3}'.format(self.getSurname(), self.getName(), self.getSecname(), self.getYearOfBirth())
         return s

@@ -17,9 +17,5 @@ class people(general):
     def getSecname(self): return self._secname
 
     def __str__(self):
-        s = self.getSurname()
-        if self.getName():
-            s += ' %s. ' % (self.getName(),)
-        if self.getSecname():
-            s += ' %s. ' % (self.getSecname(),)
+        s = '{0} {1} {2}'.format(self.getSurname(), self.getName(), self.getSecname())
         return s

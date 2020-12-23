@@ -15,13 +15,5 @@ class doctor(people):
     def getCategory(self): return self._category
 
     def __str__(self):
-        s = self.getSurname()
-        if self.getName():
-            s += ' {0}'.format(self.getName())
-        if self.getSecname():
-            s += ' {0}'.format(self.getSecname())
-        if self.getSpecialty():
-            s += ' {0}'.format(self.getSpecialty())
-        if self.getCategory():
-            s += ' {0}'.format(self.getCategory())
+        s = '{0} {1} {2} {3} {4}'.format(self.getSurname(), self.getName(), self.getSecname(), self.getSpecialty(), self.getCategory())
         return s

@@ -3,6 +3,7 @@ from general import general
 
 class pdlink(general):
     _props = ['_code', '_dealID', '_procedureID']
+
     def __init__(self, deal=None, procedure=None, data={}):
         if isinstance(deal, str):
             self.setDealCode(deal)

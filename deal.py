@@ -31,22 +31,21 @@ class deal(general):
     def setDate(self, value): self._date = value
     def setDiagnosis(self, value): self._diagnosis = value
 
-    def getPatient(self):
-         return self._hospital.getPatient(self._patientID)
+    def getPatient(self): return self._hospital.getPatient(self._patientID)
     def getDate(self): return self._date
     def getDiagnosis(self): return self._diagnosis
 
     def __getProcedures(self):
         return [self._hospital.getProcedure(code) for code in self._hospital.getProcedureCodesByDeal(self._code)]
     def clearProcedures(self): self._hospital.removeDealLinks(self._code)
+
     def findProcedureCode(self, code):
         procedureIDs = self._hospital.getProcedureCodesByDeal(self._code)
         if code in procedureIDs:
             return self._hospital.getProcedure(code)
 
     def getProcedureCodes(self): return self._hospital.getProcedureCodesByDeal(self._code)
-    def appendProcedure(self, procedure): 
-        self._hospital.appendLink(self._code, procedure.getCode())
+    def appendProcedure(self, procedure): self._hospital.appendLink(self._code, procedure.getCode())
     def removeProcedure(self, code): self._hospital.removeLink(self._code, code)
 
     def getFullCostProcedures(self):

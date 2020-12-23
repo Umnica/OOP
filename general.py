@@ -5,6 +5,7 @@ import uuid
 class general:
     # свойства, к. будут сох. т загр.
     _props = ['_code']
+
     def __init__(self, code='', data={}):
         self._hospital = None
         if code:
@@ -24,7 +25,6 @@ class general:
 
     def getCode(self): return self._code
     def setHospital(self, value): self._hospital = value
-
 
     # воз. словарь пропса
     def __iter__(self):

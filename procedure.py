@@ -3,6 +3,7 @@ from general import general
 
 class procedure(general):
     _props = ['_code', '_name', '_cost', '_doctorID']
+
     def __init__(self, code='', name='', cost=0, doctor=None, data={}):
         self.setName(name)
         self.setCost(cost)
@@ -25,6 +26,5 @@ class procedure(general):
     def getDoctorID(self): return self._doctorID
 
     def __str__(self):
-        s = '{0}, {1}, {2}'
-        s = s.format(self._name, self._cost, str(self.getDoctor()))
+        s = '{0}, {1}, {2}'.format(self._name, self._cost, str(self.getDoctor()))
         return s
