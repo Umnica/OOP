@@ -1,179 +1,146 @@
-@startuml diag1
-class general {
-    _hospital
-    _props
-    _code
-    data
+@startuml
 
-    setCode()
-    getCode()
-    generateCode()
-    __iter__()
+class Document{
+    ~_propsToSave
+    -_id
+    -_collection
+    -_provider
+    +getId()
+    +getCollection()
+    +setCollection(collection)
+    +__str__()
+    +__iter__()
+    ~__generateId()
 }
 
-class people <<general>> {
-    _name
-    _surname
-    _secname
-
-    setName(value)
-    setSurname(value)
-    setSecname(value)
-
-    getName()
-    getSurname()
-    getSecname()
-
-    __str__()
-}
-people <|-- general
-
-class doctor <<people>> {
-    _specialty
-    _category
-
-    setSpecialty()
-    setCategory()
-
-    getSpecialty()
-    getCategory()
-
-    __str__()
-}
-doctor <|-- people
-
-class generalList {
-    _list
-
-    clear()
-    findCode(code)
-    getCodes()
-    appendList
-    removeList(code)
-    __str__()
-    listOfStr()
-    listDicts()
+class User <<Document>> {
+    ~_propsToSave
+    -_secname
+    -_firstname
+    -_patronym
+    -_adress
+    -_phone
+    +getSecname()
+    +getFirstname()
+    +getPatronym()
+    +getAdress()
+    +getPhone()
+    +setSecname(secname)
+    +setFirstname(firstname)
+    +setPatronym(patronym)
+    +setAdress(adress)
+    +setPhone(phone)
 }
 
-class doctorList <<generalList>> {
-    getSpecialty(code)
-    getCategory(code)
+class Hotel <<Document>> {
+    ~_propsToSave
+    -_name
+    -_cost
+    -_country
+    +getName()
+    +getCost()
+    +getCountry()
+    +setName(name)
+    +setCost(cost)
+    +setCountry(country)
 }
-doctorList <|-- generalList
-doctorList o-- doctor 
 
-class patient <<people>> {
-    _yearOfBirth
-    _discount
-
-    setDiscount(value)
-    setYearOfBirth
-    
-    getDiscount()
-    getYearOfBirth()
-
-    __str__()
+class Route <<Document>> {
+    ~_propsToSave
+    -_duration
+    -_hotelID
+    -_climate
+    +getDuration()
+    +getHotelID()
+    +getClimate()
+    +getHotel()
+    +setDuration(duration)
+    +setClimate(climate)
+    +setHotel(hotel)
 }
-patient <|-- people
 
-class patientList <<generalList>> {
-    getYearOfBirth(code)
+class Voucher <<Document>> {
+    ~_propsToSave
+    -_routeID
+    -_userID
+    -_departureDate
+    -_count
+    +getRouteID()
+    +getUserID()
+    +getDepartureDate()
+    +getCount()
+    +getUser()
+    +getRoute()
+    +getDiscount()
+    +getCost()
+    +setRoute(route)
+    +setUser(user)
+    +setDepartureDate(departureDate)
+    +setCount(count)
 }
-patientList <|-- generalList
-patientList o-- patient 
 
-class procedure <<general>> {
-    _name
-    _cost
-    _doctor
-
-    setName
-    setCost
-    setDoctor
-
-    getName() 
-    getCost() 
-    getDoctor() 
-    getDoctorID()
-
-    __str__()
+class Collection {
+    -_provider
+    -_itemClass
+    -_name
+    +getItemClass()
+    +getName()
+    +getProvider()
+    +map(fn)
+    +find(fn)
+    +filter(fn)
+    +getIdList()
+    +findById(id)
+    +deleteById(id)
+    +append(item)
+    +clear()
+    +__str__()
+    +getDictsList()
 }
-procedure <|-- general
-procedure *-- doctorList
 
-class procedureList <<generalList>> {
-    getName(code)
-    getDoctor(code)
-    getFullCost()
+class Provider {
+    -_models
+    -_collections
+    +getModels()
+    +getModel(modelName)
+    +getCollection(name)
+    +findItem(collectionName, itemId)
+    +appendItem(collectionName, item)
+    +removeItem(collectionName, itemId)
+    +load(): pass
+    +save(): pass
 }
-procedureList <|-- generalList
-procedureList o-- procedure
 
-class deal <<general>> {
-    _procedures
-    _date
-    _diagnosis
-    _patientID
-    _procedureIDs
-
-    __str__()
-
-    getCostOfTreatment()
-
-    setPatient()
-    setDate()
-    setDiagnosis()
-
-    getPatient()
-    getDate()
-    getDiagnosis()
-
-    clearProcedures()
-    findProcedureCode( code)
-    getProcedureCodes()
-    appendProcedure
-    removeProcedure( code)
-
-    getFullCostProcedures()
+class JSONProvider <<Provider>> {
+    -_readFile
+    -_writeFile
+    +load()
+    +save()
 }
-deal <|-- general
-deal *-- procedureList
-deal *-- patientList
-dealList o-- deal 
 
-class dealList <<generalList>> {
-    findByPatientCode( code)
-    findByDiagnosis( diagnosis)
-    findByDate( date)
+class SQLiteProvider <<Provider>> {
+    -_connection
+    -_cursor
+    +removeItem(collectionName, itemId)
+    +save()
+    +load()
+    -__get_table(tablename)
+    -__post_row(tablename, itemDict)
+    -__remove_row(tablename, id)
 }
-dealList <|-- generalList
 
-class hospital {
-    __patients
-    __doctors
-    __procedures
-    __deals
-    getPatients()
-    getDoctors()
-    getProcedures()
-    getDeals()
+SQLiteProvider <|-- Provider
+JSONProvider <|-- Provider
+Provider *-- Collection
+Collection *-- Document
 
-    getPatient( code)
-    getDoctor( code)
-    getProcedure( code)
-    getDeal( code)
-    
-    appendPatient( patient)
-    appendDoctor( doctor)
-    appendProcedure(procedure)
-    appendDeal( deal)
+User <|-- Document
+Route <|-- Document
+Hotel <|-- Document
+Voucher <|-- Document
 
-    save( file): 
-    load( file):
-}
-hospital *-- patientList
-hospital *-- doctorList
-hospital *-- procedureList
-hospital *-- dealList
-
+Voucher o-- User
+Voucher o-- Route
+Route o-- Hotel
+Voucher o-- Hotel
 @enduml
